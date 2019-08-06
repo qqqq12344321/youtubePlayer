@@ -1,5 +1,5 @@
 const express = require('express');
-
+const youtubeService = require('../services/youtube');
 const router = express.Router();
 
 router.post('/addToHistory', (req, response, next) => {
@@ -44,9 +44,8 @@ router.delete('/delete/:id', (req, response, next) => {
 
 router.get('/search/:search', (req, response, next) => {
 	const search = req.params.search;
-	const service = req.app.get('service');
 
-	service
+	youtubeService
 	.search.list({part:"snippet", "q": search, type: "video" })
 	.then(res=>response.send(JSON.stringify(res.data)))
 	.catch(err => response.send(err))

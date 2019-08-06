@@ -1,5 +1,3 @@
-/* global gapi */
-
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
 import axios from 'axios'
@@ -45,7 +43,6 @@ class App extends Component {
 	search(search) {
 		axios.get(`http://localhost:5000/api/video/search/${search}`)
 		.then((response)=> {
-			console.log(response)
 			this.setState({ 
 				videos: response.data.items
 			})
