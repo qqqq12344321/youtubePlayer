@@ -4,12 +4,17 @@ const router = express.Router();
 
 router.post('/addToHistory', (req, response, next) => {
 	var myobj = req.body.data;
-	req.app.get('collection')
+	const collection = req.app.get('collection');
+	
+	collection
 	.insertOne({video: myobj})
-	.then( _ => req.app.get('collection'))
-	.find({})
-	.toArray()
-	.then(res=>response.send(JSON.stringify(res)))
+	.then( _ => {
+		collection
+		.find({})
+		.toArray()
+		.then(res=>response.send(JSON.stringify(res)))
+		.catch(err => response.send(err))
+	})
 	.catch(err => response.send(err))
 });
 
@@ -23,12 +28,16 @@ router.get('/history', (req, response, next) => {
 
 router.delete('/delete/:id', (req, response, next) => {
 	const id = req.params.id;
-	req.app.get('collection')
-	.remove( {"_id": ObjectId(id)})
-	.then( _ => req.app.get('collection'))
-	.find({})
-	.toArray()
-	.then(res=>response.send(JSON.stringify(res)))
+	const collection = req.app.get('collection');
+
+	collection.deleteOne({"_id": ObjectId(id)})
+	.then( _ => {
+		collection
+		.find({})
+		.toArray()
+		.then(res=>response.send(JSON.stringify(res)))
+		.catch(err => response.send(err))
+	})
 	.catch(err => response.send(err))
 });
 

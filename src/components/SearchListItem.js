@@ -17,7 +17,7 @@ const SearchListItem = (props) => {
 					<div className="videoItem--videoTitle">{entities.decode(video.snippet.title)}</div>
 				</div>
 				<div className="videoItem--buttonWrapper">
-					<button 
+					<button className="pointer"
 						onMouseDown={() => onUserSelected(video)}>
 						PLAY
 					</button>
