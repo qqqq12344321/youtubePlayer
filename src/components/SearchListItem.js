@@ -1,5 +1,6 @@
 import React from 'react'
 import Entities from 'html-entities'
+import './style.css'
 
 const SearchListItem = (props) => {
 	const video = props.video

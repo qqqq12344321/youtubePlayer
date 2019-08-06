@@ -2,19 +2,21 @@ const express = require('express');
 const youtubeService = require('../services/youtube');
 const router = express.Router();
 
+const getAll = (collection, response) => {
+	collection
+	.find({})
+	.toArray()
+	.then(res=>response.send(JSON.stringify(res)))
+	.catch(err => response.send(err))
+}
+
 router.post('/addToHistory', (req, response, next) => {
 	var myobj = req.body.data;
 	const collection = req.app.get('collection');
 
 	collection
 	.insertOne({video: myobj})
-	.then( _ => {
-		collection
-		.find({})
-		.toArray()
-		.then(res=>response.send(JSON.stringify(res)))
-		.catch(err => response.send(err))
-	})
+	.then( _ => getAll(collection, response))
 	.catch(err => response.send(err))
 });
 
@@ -32,13 +34,7 @@ router.delete('/delete/:id', (req, response, next) => {
 
 	collection
 	.deleteOne({"_id": ObjectId(id)})
-	.then( _ => {
-		collection
-		.find({})
-		.toArray()
-		.then(res=>response.send(JSON.stringify(res)))
-		.catch(err => response.send(err))
-	})
+	.then( _ => getAll(collection, response))
 	.catch(err => response.send(err))
 });
 
